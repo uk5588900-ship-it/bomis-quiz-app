@@ -355,7 +355,7 @@
     }, 20000);
 
     try {
-      const response = await fetch('https://birla-ai.app.n8n.cloud/webhook/ask-ai', {
+      const response = await fetch(apiBase + '/api/ask-ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subject, chapter, question }),

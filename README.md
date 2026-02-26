@@ -9,6 +9,8 @@ Quiz app with automatic result storage in MongoDB.
 
    ```env
    MONGODB_URI=your_mongodb_atlas_connection_string
+   GEMINI_API_KEY=your_google_gemini_api_key
+   GEMINI_MODEL=gemini-1.5-flash
    ```
 
 3. Install and run:
@@ -30,6 +32,8 @@ Quiz app with automatic result storage in MongoDB.
 - Start command: `npm start`
 - Environment variable:
   - `MONGODB_URI` = your Atlas URI
+  - `GEMINI_API_KEY` = your Gemini API key
+  - `GEMINI_MODEL` = `gemini-1.5-flash` (optional)
 
 After deploy:
 - `https://<service>.onrender.com`

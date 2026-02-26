@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
 
 app.use(express.json());
 
@@ -20,6 +22,76 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static(__dirname));
+
+async function generateGeminiAnswer(payload) {
+  if (!GEMINI_API_KEY) {
+    throw new Error('GEMINI_API_KEY is missing. Add it in your environment variables.');
+  }
+
+  const subject = String(payload.subject || '').trim();
+  const chapter = String(payload.chapter || '').trim();
+  const question = String(payload.question || '').trim();
+
+  if (!question) {
+    throw new Error('question is required.');
+  }
+
+  const prompt = [
+    'You are a helpful Class 9 teacher assistant.',
+    subject ? 'Subject: ' + subject : '',
+    chapter ? 'Chapter: ' + chapter : '',
+    'Question: ' + question,
+    'Give a clear and concise student-friendly answer.'
+  ].filter(Boolean).join('\n');
+
+  const endpoint =
+    'https://generativelanguage.googleapis.com/v1beta/models/' +
+    encodeURIComponent(GEMINI_MODEL) +
+    ':generateContent?key=' +
+    encodeURIComponent(GEMINI_API_KEY);
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [{ text: prompt }]
+        }
+      ]
+    })
+  });
+
+  const data = await response.json().catch(function () {
+    return {};
+  });
+
+  if (!response.ok) {
+    const message =
+      (data && data.error && data.error.message) ||
+      'Gemini request failed.';
+    throw new Error(message);
+  }
+
+  const candidates = Array.isArray(data.candidates) ? data.candidates : [];
+  const first = candidates[0] || {};
+  const parts =
+    first && first.content && Array.isArray(first.content.parts)
+      ? first.content.parts
+      : [];
+  const answer = parts
+    .map(function (part) {
+      return String(part && part.text ? part.text : '');
+    })
+    .join('\n')
+    .trim();
+
+  if (!answer) {
+    throw new Error('No answer returned by Gemini.');
+  }
+
+  return answer;
+}
 
 const quizResultSchema = new mongoose.Schema(
   {
@@ -87,6 +159,19 @@ app.post('/api/quiz-results', async function (req, res) {
     return res.status(201).json({ success: true, id: String(record._id) });
   } catch (_error) {
     return res.status(500).json({ error: 'Could not save quiz result.' });
+  }
+});
+
+app.post('/api/ask-ai', async function (req, res) {
+  try {
+    const answer = await generateGeminiAnswer(req.body || {});
+    return res.json({ answer: answer });
+  } catch (error) {
+    const message = error && error.message ? error.message : 'AI request failed.';
+    if (message === 'question is required.') {
+      return res.status(400).json({ error: message });
+    }
+    return res.status(500).json({ error: message });
   }
 });
 
