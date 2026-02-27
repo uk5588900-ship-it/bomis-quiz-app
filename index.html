@@ -1,352 +1,64 @@
 <!doctype html>
-<html lang="en" class="h-full">
-
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BOMIS AI</title>
+  <title>BIRLA OPEN MINDS INTERNATIONAL SCHOOL - QUIZ</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="ai.css">
   <link rel="icon" type="image/png" href="1.jpg">
-
 </head>
-
-<body class="h-full bg-gradient-to-b from-white via-sky-50/30 to-sky-100/40 overflow-auto">
-  <div class="min-h-full w-full flex items-center justify-center p-4"><div
-      class="w-full max-w-[380px] bg-white rounded-[40px] shadow-2xl overflow-hidden border-8 border-gray-900 relative"
-      style="aspect-ratio: 9/19.5;"><div
-        class="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-7 bg-gray-900 rounded-b-2xl z-20 flex items-center justify-center">
-        <div class="w-16 h-4 bg-gray-800 rounded-full"></div>
-      </div><div id="app-container"
-        class="h-full overflow-auto bg-gradient-to-b from-white via-sky-50/20 to-sky-100/30 wave-pattern">
-        <div id="home-screen" class="min-h-full flex flex-col"><header class="pt-10 px-5 pb-4">
-            <div class="flex items-center gap-3 mb-3"><div
-                class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center border border-sky-200/50 shadow-sm">
-                <img src="Birla.png" alt="Birla Open Minds Logo" class="w-7 h-7 object-contain">
-              </div>
-              <div class="flex-1">
-                <h1 id="app-title" class="text-lg font-bold text-[#1e3a8a] leading-tight">BOMIS AI</h1>
-                <p id="app-subtitle" class="text-[10px] text-slate-500 mt-0.5 leading-tight">AI Assistant for Class 9 </p>
-              </div>
-              <button onclick="openQuizFiesta()"
-                class="shrink-0 rounded-xl border border-emerald-300 bg-gradient-to-br from-emerald-100 to-lime-100 px-2 py-1.5 shadow-sm animate-pulse">
-                <p class="text-[9px] font-bold text-emerald-700 leading-none">QUIZ</p>
-                <p class="text-[9px] font-bold text-emerald-700 leading-none">FIESTA</p>
-              </button>
-            </div><div class="flex gap-2 mt-3"><span
-                class="px-2.5 py-1 bg-sky-100/80 text-[#1e3a8a] text-[9px] font-medium rounded-full border border-sky-200/50">Today's
-                Chapter Only</span> <span
-                class="px-2.5 py-1 bg-sky-100/80 text-[#1e3a8a] text-[9px] font-medium rounded-full border border-sky-200/50 flex items-center gap-1">
-                <svg class="w-2.5 h-2.5" fill="currentColor" viewbox="0 0 24 24">
-                  <path
-                    d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5z" />
-                  <path
-                    d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
-                </svg> Voice Learning Mode </span>
-            </div>
-            <button onclick="toggleLeaderboard()"
-              class="mt-3 w-full rounded-xl border border-sky-200/60 bg-gradient-to-r from-sky-50 to-sky-100/60 px-3 py-2 text-left">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-[9px] text-slate-500 font-medium uppercase tracking-wide">EXP Box</p>
-                  <p class="text-xs text-[#1e3a8a] font-semibold">Tap to view Top 10 leaderboard</p>
-                </div>
-                <div class="w-8 h-8 rounded-lg bg-white/80 border border-sky-200/70 flex items-center justify-center">
-                  <svg class="w-4 h-4 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </div>
-              </div>
-            </button>
-            <div id="leaderboard-modal" class="hidden fixed inset-0 z-30 bg-slate-900/40 p-4 flex items-center justify-center">
-              <div class="w-full max-w-[330px] rounded-2xl bg-white p-4 border border-sky-100 shadow-xl">
-                <div class="flex items-center justify-between mb-2">
-                  <h3 class="text-sm font-bold text-[#1e3a8a]">Student EXP Leaderboard</h3>
-                  <button onclick="closeLeaderboard()" class="text-xs text-slate-500 font-semibold">Close</button>
-                </div>
-                <label for="leaderboard-student" class="text-[10px] text-slate-500 font-medium">Current student</label>
-                <select id="leaderboard-student" onchange="updateLeaderboardStudent(this.value)"
-                  class="mt-1 mb-3 w-full rounded-lg border border-sky-200 bg-white px-2.5 py-2 text-xs text-[#1e3a8a] font-semibold"></select>
-                <p class="text-[10px] text-slate-400 mb-2">Every doubt asked in any subject adds +10 EXP.</p>
-                <div id="leaderboard-list" class="space-y-1.5 max-h-52 overflow-auto"></div>
-              </div>
-            </div>
-            <div id="quiz-fiesta-modal" class="hidden fixed inset-0 z-40 bg-slate-900/50 p-4 flex items-center justify-center">
-              <div class="w-full max-w-[360px] min-h-[480px] rounded-2xl bg-white border border-emerald-200 shadow-xl p-5">
-                <div class="flex items-center justify-between mb-3">
-                  <h3 class="text-2xl font-bold text-emerald-700 tracking-wide" style="font-family: 'Bungee', cursive;">Quiz Fiesta</h3>
-                  <button onclick="closeQuizFiesta()" class="text-xs font-semibold text-slate-500">Close</button>
-                </div>
-                <div id="quiz-intro-screen">
-                  <h4 class="mt-6 text-[18px] font-bold text-[#1e3a8a] leading-snug">BIRLA OPEN MINDS INTERNATIONAL SCHOOL QUIZ FIESTA</h4>
-                  <p class="mt-5 text-[15px] text-slate-600 leading-relaxed">BIRLA OPEN MINDS INTERNATIONAL SCHOOL QUIZ FIESTA, OUR SCHOOL [BOMIS] HAS ORGANISED A SCIENCE EXHIBITION QUIZ TODAY, FOR PARTICIPATION JUST CLICK THE START BUTTON GIVEN BELOW.</p>
-                  <label for="quiz-student-name" class="mt-4 block text-[10px] font-semibold uppercase tracking-wide text-slate-500">Student Name</label>
-                  <input id="quiz-student-name" type="text" placeholder="Enter full name"
-                    class="mt-1.5 w-full rounded-xl border border-emerald-200 px-3 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-300">
-                  <button onclick="startQuizFiesta()" class="mt-4 w-full rounded-xl bg-gradient-to-r from-emerald-500 to-lime-500 py-2.5 text-sm font-bold text-white shadow-md">START</button>
-                </div>
-                <div id="quiz-questions-screen" class="hidden">
-                  <h4 class="text-xs font-bold text-[#1e3a8a] mb-2">Science Quiz - Grade 8 (15 Questions)</h4>
-                  <div id="quiz-questions-list" class="space-y-3 max-h-[360px] overflow-auto pr-1"></div>
-                  <button onclick="submitQuizFiesta()" class="mt-4 w-full rounded-xl bg-gradient-to-r from-[#1e3a8a] to-[#1e4ba8] py-2.5 text-sm font-bold text-white shadow-md">SUBMIT</button>
-                </div>
-                <div id="quiz-result-screen" class="hidden">
-                  <h4 class="text-xs font-bold text-[#1e3a8a] mb-2">Quiz Result</h4>
-                  <div id="quiz-result-box" class="w-full aspect-square rounded-xl border-[3px] border-emerald-500 bg-emerald-50 p-4 flex flex-col justify-center">
-                    <p id="quiz-result-score" class="text-base font-extrabold text-emerald-700 text-center"></p>
-                    <p id="quiz-result-percentage" class="text-sm font-extrabold text-slate-800 mt-2 text-center"></p>
-                    <p class="text-xs text-slate-700 mt-4 font-extrabold text-center">WE HOPE TO SEE YOU ON THE LEADERBOARD, STAY TUNED.</p>
-                  </div>
-                  <p id="quiz-save-status" class="mt-3 text-[10px] text-center text-slate-500"></p>
-                  <button onclick="openQuizFiesta()" class="mt-4 w-full rounded-xl bg-gradient-to-r from-emerald-500 to-lime-500 py-2.5 text-sm font-bold text-white shadow-md">BACK TO QUIZ HOME</button>
-                </div>
-              </div>
-            </div>
-          </header><main class="flex-1 px-5 py-4">
-            <p class="text-xs text-slate-500 mb-4 font-medium">Select a subject to start learning</p>
-            <div class="grid grid-cols-2 gap-3">
-              <button onclick="showSubject('physics')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M12 2v4m0 12v4M2 12h4m12 0h4" />
-                    <circle cx="12" cy="12" r="9" stroke-dasharray="4 2" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Physics</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Motion &amp; Forces</p>
-              </button> 
-              
-              <button onclick="showSubject('chemistry')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path d="M9 3v6l-4 8a2 2 0 002 2h10a2 2 0 002-2l-4-8V3" />
-                    <path d="M9 3h6" />
-                    <circle cx="10" cy="15" r="1" fill="currentColor" />
-                    <circle cx="14" cy="14" r="1" fill="currentColor" />
-                    <circle cx="12" cy="17" r="1" fill="currentColor" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Chemistry</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Atoms &amp; Molecules</p>
-              </button> 
-              
-              <button onclick="showSubject('biology')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path d="M12 22c-4-3-8-6-8-11a8 8 0 0116 0c0 5-4 8-8 11z" />
-                    <path d="M12 11V7m0 4l-2-2m2 2l2-2" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Biology</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Life Science</p>
-              </button> 
-              
-              <button onclick="showSubject('mathematics')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path d="M4 7h6M4 12h6m-6 5h6M14 7l6 10M20 7l-6 10" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Mathematics</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Numbers &amp; Algebra</p>
-              </button>
-
-              <button onclick="showSubject('history')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">History</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Past Events</p>
-              </button>
-
-              <button onclick="showSubject('ai')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25z" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">AI</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Machine Learning</p>
-              </button>
-
-              <button onclick="showSubject('hindi')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"></path>
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Hindi</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Vyakaran & Sahitya</p>
-              </button>
-
-              <button onclick="showSubject('geography')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Geography</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Earth & Environment</p>
-              </button>
-
-              <button onclick="showSubject('economics')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Economics</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Market & Wealth</p>
-              </button>
-
-              <button onclick="showSubject('civics')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Civics</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Society & Govt</p>
-              </button>
-
-              <button onclick="showSubject('english')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">English</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Grammar & Lit</p>
-              </button>
-
-              <button onclick="showSubject('sanskrit')" class="card-hover bg-gradient-to-br from-white to-sky-50 rounded-2xl p-4 text-left border border-sky-100 shadow-md">
-                <div class="w-10 h-10 rounded-xl bg-sky-100/80 flex items-center justify-center mb-3">
-                  <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.89 1.121l-2.857.952c-.46.153-.9-.287-.747-.747l.95-2.857a4.5 4.5 0 011.12-1.89l13.49-13.49z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.125L16.862 4.487" />
-                  </svg>
-                </div>
-                <h3 class="font-semibold text-[#1e3a8a] text-sm">Sanskrit</h3>
-                <p class="text-[9px] text-slate-400 mt-0.5">Shemushi & Vyakaran</p>
-              </button>
-
-            </div><div class="mt-5 bg-gradient-to-r from-[#1e3a8a] to-[#1e4ba8] rounded-2xl p-4 text-white">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-[10px] text-sky-200 font-medium">Today's Progress</p>
-                  <p class="text-lg font-bold">3 Chapters</p>
-                </div>
-                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-              </div>
-              <div class="mt-3 h-1.5 bg-white/20 rounded-full overflow-hidden">
-                <div class="h-full w-3/4 bg-sky-300 rounded-full"></div>
-              </div>
-            </div>
-          </main><footer class="px-5 py-4 mt-auto">
-            <div class="flex items-center justify-center border-t border-sky-100 pt-4">
-              <p id="footer-text" class="text-[9px] text-slate-400 text-center">Classroom se Innovation tak - Designed and Developed by Aniket Thakur</p>
-            </div>
-          </footer>
-        </div><div id="subject-screen" class="min-h-full flex-col hidden screen-transition"><header class="pt-10 px-5 pb-4 bg-gradient-to-b from-white to-transparent">
-            <div class="flex items-center gap-3"><button onclick="showHome()"
-                class="w-9 h-9 rounded-xl bg-sky-100/80 flex items-center justify-center border border-sky-200/50">
-                <svg class="w-5 h-5 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="2"
-                  viewbox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg></button>
-              <div>
-                <h1 id="subject-title" class="text-lg font-bold text-[#1e3a8a]">Chemistry AI Assistant</h1>
-                <div class="flex items-center gap-1.5 mt-0.5"><span
-                    class="w-2 h-2 rounded-full bg-green-400 pulse-soft"></span>
-                  <p class="text-[10px] text-slate-500">Teacher Voice Enabled</p>
-                </div>
-              </div>
-            </div>
-          </header><main class="flex-1 px-5 py-3">
-            
-            <div class="bg-gradient-to-r from-sky-50 to-sky-100/50 rounded-xl p-3 mb-4 border border-sky-200/50">
-              <label for="chapter-select" class="text-[9px] text-slate-500 uppercase tracking-wide font-medium block mb-1">Select Chapter</label>
-              <div class="relative">
-                <select id="chapter-select" class="w-full bg-transparent text-sm font-semibold text-[#1e3a8a] appearance-none focus:outline-none cursor-pointer truncate pr-8">
-                  </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-[#1e3a8a]">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-            
-            <div class="mb-4"><label class="text-xs text-slate-500 mb-2 block font-medium">Ask your doubt from today's
-                chapter</label>
-              <div class="relative"><input type="text" id="question-input" placeholder="Type your question here..."
-                  class="w-full px-4 py-3.5 rounded-xl border border-sky-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-transparent placeholder:text-slate-300">
-                <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2"
-                    viewbox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
-                  </svg>
-                </div>
-              </div>
-            </div><button onclick="askQuestion()"
-              class="w-full bg-gradient-to-r from-[#1e3a8a] to-[#1e4ba8] text-white py-3.5 rounded-xl font-semibold text-sm shadow-lg shadow-blue-900/20 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
-              </svg> Ask AI Assistant </button> <div id="response-area" class="mt-5 hidden">
-              <div class="bg-white rounded-2xl p-4 border border-sky-100 shadow-sm">
-                <div class="flex items-start gap-3">
-                  <div
-                    class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#1e3a8a] to-[#1e4ba8] flex items-center justify-center flex-shrink-0">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2"
-                      viewbox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <p class="text-[10px] text-slate-400 font-medium mb-1">AI Response</p>
-                    <p id="ai-response" class="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">An atom is the smallest unit of
-                      matter that retains the properties of an element. Atoms consist of protons, neutrons, and
-                      electrons. The number of protons defines the element.</p>
-                  </div>
-                </div><div class="mt-4 pt-3 border-t border-sky-100"><button onclick="playVoice()"
-                    class="flex items-center gap-2 text-[#1e3a8a] hover:text-[#1e4ba8] transition-colors">
-                    <div id="play-btn" class="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center">
-                      <svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p class="text-xs font-medium">Listen to explanation</p>
-                      <p class="text-[9px] text-slate-400">Teacher voice enabled</p>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </main><footer class="px-5 py-4 mt-auto">
-            <div class="flex items-center justify-center border-t border-sky-100 pt-4">
-              <p class="text-[9px] text-slate-400">BOMIS AI - Class 9</p>
-            </div>
-          </footer>
-        </div>
+<body class="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 p-4 md:p-8">
+  <main class="mx-auto w-full max-w-3xl rounded-3xl border border-emerald-200 bg-white shadow-xl p-5 md:p-7">
+    <header class="flex items-center gap-4 border-b border-emerald-100 pb-4">
+      <div class="w-16 h-16 rounded-xl border-2 border-emerald-300 bg-emerald-50 flex items-center justify-center overflow-hidden">
+        <img src="Birla.png" alt="School Logo" class="w-full h-full object-contain">
       </div>
-    </div>
-  </div>
-  <script src="./script.js?v=7"></script>
-</body>
+      <h1 class="text-lg md:text-2xl font-extrabold text-orange-700 leading-tight">
+        BIRLA OPEN MINDS INTERNATIONAL SCHOOL
+      </h1>
+    </header>
 
+    <section id="quiz-fiesta-modal" class="mt-5">
+      <div id="quiz-intro-screen" class="quiz-slide-in">
+        <h2 class="text-base md:text-lg font-bold text-emerald-700">Science Exhibition Quiz</h2>
+        <p class="mt-2 text-sm text-slate-600">15 MCQ Questions | 4 Marks Each</p>
+        <label for="quiz-student-name" class="mt-5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Student Name</label>
+        <input id="quiz-student-name" type="text" placeholder="Enter full name"
+          class="mt-1.5 w-full rounded-xl border border-emerald-200 px-3 py-2.5 text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-300">
+        <button onclick="startQuizFiesta(this)"
+          class="mt-4 w-full rounded-xl bg-gradient-to-r from-emerald-500 to-lime-500 py-3 text-sm font-bold text-white shadow-md quiz-start-btn">
+          START
+        </button>
+      </div>
+
+      <div id="quiz-questions-screen" class="hidden">
+        <h3 class="text-sm font-bold text-slate-800 mb-2">
+          <span class="text-orange-700">15 MCQ Questions</span> (4 Marks Each)
+        </h3>
+        <div id="quiz-questions-list" class="space-y-3 max-h-[58vh] overflow-auto pr-1"></div>
+        <button onclick="submitQuizFiesta()"
+          class="mt-4 w-full rounded-xl bg-gradient-to-r from-orange-600 to-amber-500 py-3 text-sm font-bold text-white shadow-md">
+          SUBMIT
+        </button>
+      </div>
+
+      <div id="quiz-result-screen" class="hidden">
+        <h3 class="text-sm font-bold text-orange-700 mb-3">Quiz Result</h3>
+        <div id="quiz-result-box"
+          class="mx-auto w-[250px] h-[250px] rounded-full border-[10px] border-emerald-600 bg-emerald-50 p-4 flex flex-col items-center justify-center">
+          <p id="quiz-result-score" class="text-lg font-extrabold text-emerald-700 text-center"></p>
+          <p id="quiz-result-percentage" class="text-base font-extrabold text-slate-800 mt-2 text-center"></p>
+        </div>
+        <p id="quiz-save-status" class="mt-3 text-xs text-center text-slate-500"></p>
+        <button onclick="openQuizFiesta()"
+          class="mt-4 w-full rounded-xl bg-gradient-to-r from-emerald-500 to-lime-500 py-3 text-sm font-bold text-white shadow-md">
+          BACK TO QUIZ HOME
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
 </html>
