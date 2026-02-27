@@ -4,55 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BIRLA OPEN MINDS INTERNATIONAL SCHOOL - QUIZ</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="ai.css">
   <link rel="icon" type="image/png" href="1.jpg">
 </head>
-<body class="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 p-4 md:p-8">
-  <main class="mx-auto w-full max-w-3xl rounded-3xl border border-emerald-200 bg-white shadow-xl p-5 md:p-7">
-    <header class="flex items-center gap-4 border-b border-emerald-100 pb-4">
-      <div class="w-16 h-16 rounded-xl border-2 border-emerald-300 bg-emerald-50 flex items-center justify-center overflow-hidden">
-        <img src="Birla.png" alt="School Logo" class="w-full h-full object-contain">
+<body class="page-body">
+  <main class="page-shell">
+    <header class="top-header">
+      <div class="school-logo-wrap">
+        <img src="Birla.png" alt="School Logo" class="school-logo">
       </div>
-      <h1 class="text-lg md:text-2xl font-extrabold text-orange-700 leading-tight">
+      <h1 class="school-title">
         BIRLA OPEN MINDS INTERNATIONAL SCHOOL
       </h1>
     </header>
 
-    <section id="quiz-fiesta-modal" class="mt-5">
+    <section id="quiz-fiesta-modal" class="quiz-root">
       <div id="quiz-intro-screen" class="quiz-slide-in">
-        <h2 class="text-base md:text-lg font-bold text-emerald-700">Science Exhibition Quiz</h2>
-        <p class="mt-2 text-sm text-slate-600">15 MCQ Questions | 4 Marks Each</p>
-        <label for="quiz-student-name" class="mt-5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Student Name</label>
+        <h2 class="intro-title">Science Exhibition Quiz</h2>
+        <p class="intro-subtitle">15 MCQ Questions | 4 Marks Each</p>
+        <label for="quiz-student-name" class="field-label">Student Name</label>
         <input id="quiz-student-name" type="text" placeholder="Enter full name"
-          class="mt-1.5 w-full rounded-xl border border-emerald-200 px-3 py-2.5 text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-300">
+          class="name-input">
         <button onclick="startQuizFiesta(this)"
-          class="mt-4 w-full rounded-xl bg-gradient-to-r from-emerald-500 to-lime-500 py-3 text-sm font-bold text-white shadow-md quiz-start-btn">
+          class="btn btn-start quiz-start-btn">
           START
         </button>
       </div>
 
       <div id="quiz-questions-screen" class="hidden">
-        <h3 class="text-sm font-bold text-slate-800 mb-2">
-          <span class="text-orange-700">15 MCQ Questions</span> (4 Marks Each)
+        <h3 class="questions-heading">
+          <span>15 MCQ Questions</span> (4 Marks Each)
         </h3>
-        <div id="quiz-questions-list" class="space-y-3 max-h-[58vh] overflow-auto pr-1"></div>
+        <div id="quiz-questions-list" class="questions-list"></div>
         <button onclick="submitQuizFiesta()"
-          class="mt-4 w-full rounded-xl bg-gradient-to-r from-orange-600 to-amber-500 py-3 text-sm font-bold text-white shadow-md">
+          class="btn btn-submit">
           SUBMIT
         </button>
       </div>
 
       <div id="quiz-result-screen" class="hidden">
-        <h3 class="text-sm font-bold text-orange-700 mb-3">Quiz Result</h3>
-        <div id="quiz-result-box"
-          class="mx-auto w-[250px] h-[250px] rounded-full border-[10px] border-emerald-600 bg-emerald-50 p-4 flex flex-col items-center justify-center">
-          <p id="quiz-result-score" class="text-lg font-extrabold text-emerald-700 text-center"></p>
-          <p id="quiz-result-percentage" class="text-base font-extrabold text-slate-800 mt-2 text-center"></p>
+        <h3 class="result-heading">Quiz Result</h3>
+        <div id="quiz-result-box" class="result-circle">
+          <p id="quiz-result-score" class="result-score"></p>
+          <p id="quiz-result-percentage" class="result-percentage"></p>
         </div>
-        <p id="quiz-save-status" class="mt-3 text-xs text-center text-slate-500"></p>
+        <p id="quiz-save-status" class="save-status"></p>
         <button onclick="openQuizFiesta()"
-          class="mt-4 w-full rounded-xl bg-gradient-to-r from-emerald-500 to-lime-500 py-3 text-sm font-bold text-white shadow-md">
+          class="btn btn-start">
           BACK TO QUIZ HOME
         </button>
       </div>

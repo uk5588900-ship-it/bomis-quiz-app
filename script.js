@@ -118,19 +118,19 @@
     list.innerHTML = quizFiestaQuestions.map(function (item, index) {
       const options = item.options.map(function (option, optionIndex) {
         return (
-          "<label class='mcq-option flex items-start gap-3 rounded-xl border px-3 py-2.5'>" +
-          "<input type='radio' name='quiz-q-" + index + "' value='" + optionIndex + "' class='mt-1 h-4 w-4 accent-green-600'>" +
-          "<span class='text-sm md:text-[15px] text-blue-700 font-semibold leading-snug'>" + option + "</span>" +
+          "<label class='mcq-option'>" +
+          "<input type='radio' name='quiz-q-" + index + "' value='" + optionIndex + "' class='mcq-radio'>" +
+          "<span class='mcq-option-text'>" + option + "</span>" +
           "</label>"
         );
       }).join('');
 
       return (
-        "<div class='mcq-card rounded-2xl border p-4 bg-white' style='animation-delay:" + (index * 0.06).toFixed(2) + "s'>" +
-        "<p class='text-base md:text-lg font-bold text-black mb-3 leading-snug'>" +
-        "<span class='text-black'>" + (index + 1) + ".</span> " + item.question +
+        "<div class='mcq-card' style='animation-delay:" + (index * 0.06).toFixed(2) + "s'>" +
+        "<p class='mcq-question'>" +
+        "<span class='mcq-question-number'>" + (index + 1) + ".</span> " + item.question +
         "</p>" +
-        "<div class='space-y-2'>" + options + "</div>" +
+        "<div class='mcq-options'>" + options + "</div>" +
         "</div>"
       );
     }).join('');
