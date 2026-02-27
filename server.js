@@ -2,12 +2,17 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const fs = require('fs/promises');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+const QUIZ_RESULTS_FILE = path.join(__dirname, 'quiz-results-db.json');
+
+let useMongo = Boolean(MONGODB_URI);
 
 app.use(express.json());
 
@@ -123,12 +128,41 @@ function toClientResult(doc) {
 
 async function connectMongo() {
   if (!MONGODB_URI) {
-    throw new Error('MONGODB_URI is missing. Add it in your environment variables.');
+    useMongo = false;
+    return;
   }
 
-  await mongoose.connect(MONGODB_URI, {
-    serverSelectionTimeoutMS: 10000
-  });
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000
+    });
+    useMongo = true;
+  } catch (error) {
+    useMongo = false;
+    console.warn('MongoDB unavailable. Falling back to local JSON storage:', error.message);
+  }
+}
+
+function createLocalId() {
+  return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+}
+
+async function readLocalResults() {
+  try {
+    const raw = await fs.readFile(QUIZ_RESULTS_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed && parsed.results) ? parsed.results : [];
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      return [];
+    }
+    throw error;
+  }
+}
+
+async function writeLocalResults(results) {
+  const payload = JSON.stringify({ results: results }, null, 2);
+  await fs.writeFile(QUIZ_RESULTS_FILE, payload, 'utf8');
 }
 
 app.post('/api/quiz-results', async function (req, res) {
@@ -146,17 +180,34 @@ app.post('/api/quiz-results', async function (req, res) {
       return res.status(400).json({ error: 'score, total and percentage must be valid numbers.' });
     }
 
-    const record = await QuizResult.create({
+    if (useMongo) {
+      const record = await QuizResult.create({
+        studentName: studentName,
+        score: score,
+        total: total,
+        percentage: percentage,
+        submittedAt: new Date(),
+        ip: req.ip,
+        userAgent: req.get('user-agent') || 'unknown'
+      });
+
+      return res.status(201).json({ success: true, id: String(record._id) });
+    }
+
+    const results = await readLocalResults();
+    const id = createLocalId();
+    results.push({
+      id: id,
       studentName: studentName,
       score: score,
       total: total,
       percentage: percentage,
-      submittedAt: new Date(),
+      submittedAt: new Date().toISOString(),
       ip: req.ip,
       userAgent: req.get('user-agent') || 'unknown'
     });
-
-    return res.status(201).json({ success: true, id: String(record._id) });
+    await writeLocalResults(results);
+    return res.status(201).json({ success: true, id: id });
   } catch (_error) {
     return res.status(500).json({ error: 'Could not save quiz result.' });
   }
@@ -178,11 +229,24 @@ app.post('/api/ask-ai', async function (req, res) {
 app.get('/api/quiz-results', async function (req, res) {
   try {
     const limit = Math.min(Math.max(Number(req.query.limit) || 100, 1), 500);
-    const docs = await QuizResult.find({})
-      .sort({ submittedAt: -1 })
-      .limit(limit)
-      .lean();
-    const results = docs.map(toClientResult);
+    let results = [];
+
+    if (useMongo) {
+      const docs = await QuizResult.find({})
+        .sort({ submittedAt: -1 })
+        .limit(limit)
+        .lean();
+      results = docs.map(toClientResult);
+    } else {
+      const local = await readLocalResults();
+      results = local
+        .slice()
+        .sort(function (a, b) {
+          return new Date(b.submittedAt) - new Date(a.submittedAt);
+        })
+        .slice(0, limit);
+    }
+
     return res.json({ count: results.length, results: results });
   } catch (_error) {
     return res.status(500).json({ error: 'Could not load quiz results.' });
@@ -190,12 +254,16 @@ app.get('/api/quiz-results', async function (req, res) {
 });
 
 app.get('/api/health', function (_req, res) {
-  const dbConnected = mongoose.connection.readyState === 1;
-  res.json({ ok: true, dbConnected: dbConnected });
+  const dbConnected = useMongo && mongoose.connection.readyState === 1;
+  const storage = dbConnected ? 'mongodb' : 'local-json';
+  res.json({ ok: true, dbConnected: dbConnected, storage: storage });
 });
 
 connectMongo()
   .then(function () {
+    if (!useMongo) {
+      console.log('Using local JSON storage at ' + QUIZ_RESULTS_FILE);
+    }
     app.listen(PORT, function () {
       console.log('Server running at http://localhost:' + PORT);
     });

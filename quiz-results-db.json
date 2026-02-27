@@ -59,6 +59,16 @@
       "submittedAt": "2026-02-26T14:02:35.854Z",
       "ip": "::1",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
+    },
+    {
+      "id": "mm4sacbp-570049",
+      "studentName": "Codex Smoke Test",
+      "score": 44,
+      "total": 60,
+      "percentage": 73.33,
+      "submittedAt": "2026-02-27T11:03:17.989Z",
+      "ip": "::ffff:127.0.0.1",
+      "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7705"
     }
   ]
 }
